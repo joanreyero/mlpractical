@@ -1,0 +1,12 @@
+from mlp.test_methods import test_dropout_layer
+import numpy as np
+
+fprop_test, fprop_output, fprop_correct, \
+bprop_test, bprop_output, bprop_correct = test_dropout_layer()
+
+assert fprop_test == 1.0, (
+'The dropout layer fprop functionality test failed'
+'Correct output is \n\n{0}\n\n but returned output is \n\n{1}\n\n difference is \n\n{2}'
+.format(fprop_output, fprop_correct, fprop_output-fprop_correct)
+)
+
