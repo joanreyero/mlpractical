@@ -169,6 +169,7 @@ class ExperimentBuilder(nn.Module):
         """
         ########################################
         for (name, l) in named_parameters:
+            print(name)
             if 'weight' in name:
                 layers.append(name)
                 all_grads.append(torch.abs(torch.mean(l.grad)))

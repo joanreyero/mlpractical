@@ -189,7 +189,7 @@ class ConvolutionalProcessingBlock(nn.Module):
 
 class NormConvolutionalProcessingBlock(nn.Module):
     def __init__(self, input_shape, num_filters, kernel_size, padding, bias, dilation):
-        super(ConvolutionalProcessingBlock, self).__init__()
+        super(NormConvolutionalProcessingBlock, self).__init__()
 
         self.num_filters = num_filters
         self.kernel_size = kernel_size
@@ -230,11 +230,11 @@ class NormConvolutionalProcessingBlock(nn.Module):
         out = x
 
         out = self.layer_dict['conv_0'].forward(out)
-        out - self.layer_dict['bn_0'].forward(out)
+        out = self.layer_dict['bn_0'].forward(out)
         out = F.leaky_relu(out)
 
         out = self.layer_dict['conv_1'].forward(out)
-        out - self.layer_dict['bn_1'].forward(out)
+        out = self.layer_dict['bn_1'].forward(out)
         out = F.leaky_relu(out)
 
         return out
