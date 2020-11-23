@@ -63,6 +63,7 @@ target/
 # Pycharm
 .idea/*
 
+*.tar.gz
 
 #Notebook stuff
 notebooks/.ipynb_checkpoints/
