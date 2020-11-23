@@ -119,7 +119,7 @@ class ExperimentBuilder(nn.Module):
         return total_num_params
 
 
-    def plot_func_def(self,all_grads, layers):
+    def plot_func_def(self,all_grads, layers, all_weights=False):
         
        
         """
@@ -128,20 +128,31 @@ class ExperimentBuilder(nn.Module):
         :param layers: Layer names corresponding to the model parameters
         :return: plot for gradient flow
         """
-        plt.plot(all_grads, alpha=0.3, color="b")
+
+        if all_weights:
+            plt.plot(all_weights, alpha=1, color="r")
+        
+        else:
+            plt.plot(all_grads, alpha=0.3, color="b")
+
         plt.hlines(0, 0, len(all_grads)+1, linewidth=1, color="k" )
         plt.xticks(range(0,len(all_grads), 1), layers, rotation="vertical")
         plt.xlim(xmin=0, xmax=len(all_grads))
         plt.xlabel("Layers")
-        plt.ylabel("Average Gradient")
-        plt.title("Gradient flow")
+        if all_weights:
+            plt.ylabel("Average Weight")
+            plt.title("Weight flow")
+        else:
+            plt.ylabel("Average Gradient")
+            plt.title("Gradient flow")
+
         plt.grid(True)
         plt.tight_layout()
         
         return plt
         
     
-    def plot_grad_flow(self, named_parameters):
+    def plot_grad_flow(self, named_parameters, plot_weights=False):
         """
         The function is being called in Line 298 of this file. 
         Receives the parameters of the model being trained. Returns plot of gradient flow for the given model parameters.
@@ -149,21 +160,25 @@ class ExperimentBuilder(nn.Module):
         """
         all_grads = []
         layers = []
-        
+        if plot_weights:
+            all_weights = []
+        else:
+            all_weights = False
         """
         Complete the code in the block below to collect absolute mean of the gradients for each layer in all_grads with the             layer names in layers.
         """
         ########################################
         for (name, l) in named_parameters:
-            layers.append(name)
-            all_grads.append(torch.abs(torch.mean(l.grad)))
-            print(name)
-            print(torch.mean(l), torch.std(l))
+            if 'weight' in name:
+                layers.append(name)
+                all_grads.append(torch.abs(torch.mean(l.grad)))
+                if plot_weights:
+                    all_weights.append(torch.abs(torch.mean(l)))
         
         ########################################
             
         
-        plt = self.plot_func_def(all_grads, layers)
+        plt = self.plot_func_def(all_grads, layers, all_weights=all_weights)
         
         return plt
     
