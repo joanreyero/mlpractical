@@ -47,6 +47,12 @@ if args.block_type == 'conv_block':
 elif args.block_type == 'bn_conv_block':
     processing_block_type = NormConvolutionalProcessingBlock
     dim_reduction_block_type = NormConvolutionalDimensionalityReductionBlock
+elif args.block_type == 'reverse_bn_conv_block':
+    processing_block_type = ReverseNormConvolutionalProcessingBlock
+    dim_reduction_block_type = ReverseNormConvolutionalDimensionalityReductionBlock
+elif args.block_type == 'both_bn_conv_block':
+    processing_block_type = BothNormConvolutionalProcessingBlock
+    dim_reduction_block_type = BothNormConvolutionalDimensionalityReductionBlock
 elif args.block_type == 'empty_block':
     processing_block_type = EmptyBlock
     dim_reduction_block_type = EmptyBlock
